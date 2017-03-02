@@ -11,7 +11,7 @@ os:
 install:
   - sudo add-apt-repository -y ppa:beineri/opt-qt521
   - sudo apt-get -qy update
-  - sudo apt-get -qy install qt52base qt52tools
+  - sudo apt-get -qy install qt52base qt52tools libxcb-sync0
 
 script:
   - source /opt/qt52/bin/qt52-env.sh

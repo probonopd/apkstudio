@@ -8,12 +8,20 @@ os:
   - linux
 
 install:
- - sudo add-apt-repository -y ppa:beineri/opt-qt521
- - sudo apt-get -qy update
- - sudo apt-get -qy install qt52base qt52tools
+  - sudo add-apt-repository -y ppa:beineri/opt-qt521
+  - sudo apt-get -qy update
+  - sudo apt-get -qy install qt52base qt52tools
 
 script:
- - source /opt/qt52/bin/qt52-env.sh
- - lrelease res/lang/en.ts
- - qmake apkstudio.pro CONFIG+=release
- - make
+  - source /opt/qt52/bin/qt52-env.sh
+  - lrelease res/lang/en.ts
+  - qmake PREFIX=/usr apkstudio.pro CONFIG+=release
+  - make -j4
+  - sudo make INSTALL_ROOT=appdir install ; sudo chown -R $USER appdir ; find appdir/
+  - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" 
+  - chmod a+x linuxdeployqt*.AppImage
+  - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
+  - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -bundle-non-qt-libs
+  - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -appimage
+  - find ./appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+  - curl --upload-file ./APK*.AppImage https://transfer.sh/APK_Studio-git.$(git rev-parse --short HEAD)-x86_64.AppImage

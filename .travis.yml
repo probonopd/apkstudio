@@ -19,6 +19,11 @@ script:
   - qmake PREFIX=/usr apkstudio.pro CONFIG+=release
   - make -j4
   - find .
+  - mkdir -p appdir/usr/bin
+  - cp apkstudio appdir/usr/bin/
+  - mkdir -p appdir/usr/share/{pixmaps,applications}
+  - cp ./res/images/logo.png appdir/usr/share/pixmaps/apkstudio.png
+  - cp ./apkstudio.desktop appdir/usr/share/applications
   - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" 
   - chmod a+x linuxdeployqt*.AppImage
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH

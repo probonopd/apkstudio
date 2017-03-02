@@ -18,7 +18,7 @@ script:
   - lrelease res/lang/en.ts
   - qmake PREFIX=/usr apkstudio.pro CONFIG+=release
   - make -j4
-  - sudo make INSTALL_ROOT=appdir install ; sudo chown -R $USER appdir ; find appdir/
+  - find .
   - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" 
   - chmod a+x linuxdeployqt*.AppImage
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
